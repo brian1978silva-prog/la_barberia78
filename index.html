@@ -561,18 +561,18 @@
 <span class="">Huecos para esta semana</span>
 </div>
 </div>
-<form class="space-y-space-lg" onsubmit="event.preventDefault(); alert('¡Gracias! Tu solicitud ha sido registrada. Te confirmaremos por WhatsApp en breve.');">
+<form id="booking-form" class="space-y-space-lg" onsubmit="enviarWhatsAppReservation(event)">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
 <!-- Service Picker -->
 <div class="flex flex-col gap-space-xs">
 <label class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Servicio Deseado</label>
-<select class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md">
-<option value="pack-completo">Servicio Completo Barbería 78 (34,00 €)</option>
-<option value="corte-signature">Corte de Pelo Signature (22,00 €)</option>
-<option value="arreglo-barba">Arreglo y Perfilado de Barba (16,00 €)</option>
-<option value="afeitado-clasico">Afeitado Clásico Ritual (20,00 €)</option>
-<option value="tratamiento-capilar">Tratamiento Capilar (14,00 €)</option>
-<option value="corte-junior">Corte Junior (10,00 €)</option>
+<select id="res-servicio" class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md">
+<option value="Servicio Completo Barbería 78 (34,00 €)">Servicio Completo Barbería 78 (34,00 €)</option>
+<option value="Corte de Pelo Signature (22,00 €)">Corte de Pelo Signature (22,00 €)</option>
+<option value="Arreglo y Perfilado de Barba (16,00 €)">Arreglo y Perfilado de Barba (16,00 €)</option>
+<option value="Afeitado Clásico Ritual (20,00 €)">Afeitado Clásico Ritual (20,00 €)</option>
+<option value="Tratamiento Capilar (14,00 €)">Tratamiento Capilar (14,00 €)</option>
+<option value="Corte Junior (10,00 €)">Corte Junior (10,00 €)</option>
 </select>
 </div>
 <!-- Barber Picker -->
@@ -583,27 +583,27 @@
 <!-- Date Picker -->
 <div class="flex flex-col gap-space-xs">
 <label class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Fecha</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md" type="date" value="2024-11-20">
+<input id="res-fecha" class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md" type="date">
 </div>
 <!-- Time Slot Buttons -->
 <div class="flex flex-col gap-space-xs">
 <label class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Horario Disponible</label>
-<div class="grid grid-cols-4 gap-space-2xs text-center">
-<button class="py-space-xs rounded bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-sm text-label-sm text-on-surface transition-colors" type="button">10:00</button>
-<button class="py-space-xs rounded bg-primary text-on-primary font-bold font-label-sm text-label-sm shadow" type="button">11:30</button>
-<button class="py-space-xs rounded bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-sm text-label-sm text-on-surface transition-colors" type="button">16:30</button>
-<button class="py-space-xs rounded bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-sm text-label-sm text-on-surface transition-colors" type="button">18:00</button>
+<div class="grid grid-cols-4 gap-space-2xs text-center" id="time-slots">
+<button type="button" onclick="selectTimeSlot(this)" class="time-slot-btn py-space-xs rounded bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-sm text-label-sm text-on-surface transition-colors">10:00</button>
+<button type="button" onclick="selectTimeSlot(this)" class="time-slot-btn py-space-xs rounded bg-primary text-on-primary font-bold font-label-sm text-label-sm shadow">11:30</button>
+<button type="button" onclick="selectTimeSlot(this)" class="time-slot-btn py-space-xs rounded bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-sm text-label-sm text-on-surface transition-colors">16:30</button>
+<button type="button" onclick="selectTimeSlot(this)" class="time-slot-btn py-space-xs rounded bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-sm text-label-sm text-on-surface transition-colors">18:00</button>
 </div>
 </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg pt-space-xs">
 <div class="flex flex-col gap-space-xs">
 <label class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Nombre y Apellidos</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md" placeholder="Ej. Joan Martí" required="" type="text">
+<input id="res-nombre" class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md" placeholder="Ej. Joan Martí" required="" type="text">
 </div>
 <div class="flex flex-col gap-space-xs">
 <label class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Teléfono / WhatsApp</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md" placeholder="+376 o +34 ..." required="" type="tel">
+<input id="res-telefono" class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-space-md py-space-sm text-on-surface focus:outline-none focus:border-primary font-body-md text-body-md" placeholder="+376 o +34 ..." required="" type="tel">
 </div>
 </div>
 <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
@@ -611,7 +611,7 @@
               Confirmación inmediata por WhatsApp. Cancelación gratuita hasta 2h antes.
             </p>
 <button class="w-full sm:w-auto px-space-xl py-space-sm bg-primary hover:bg-primary-fixed-dim text-on-primary font-label-lg text-label-lg uppercase tracking-wider rounded font-bold transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)]" type="submit">
-              Confirmar Cita Ahora
+              Reservar por WhatsApp
             </button>
 </div>
 </form>
@@ -729,6 +729,37 @@
 </section>
 </div>
 <script>
+  let selectedTime = '11:30';
+
+  function selectTimeSlot(btn) {
+    document.querySelectorAll('.time-slot-btn').forEach(b => {
+      b.className = 'time-slot-btn py-space-xs rounded bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-sm text-label-sm text-on-surface transition-colors';
+    });
+    btn.className = 'time-slot-btn py-space-xs rounded bg-primary text-on-primary font-bold font-label-sm text-label-sm shadow';
+    selectedTime = btn.innerText.trim();
+  }
+
+  function enviarWhatsAppReservation(e) {
+    e.preventDefault();
+    const servicio = document.getElementById('res-servicio').value;
+    const fecha = document.getElementById('res-fecha').value;
+    const nombre = document.getElementById('res-nombre').value;
+    const telefono = document.getElementById('res-telefono').value;
+    
+    // NÚMERO DE TELÉFONO DEL BARBERO (con prefijo del país, ej: 376812378 o 34600000000)
+    const numBarberia = "376363482";
+
+    const mensaje = `¡Hola! Me gustaría reservar una cita:\n\n` +
+      `📌 *Servicio:* ${servicio}\n` +
+      `📅 *Fecha:* ${fecha || 'Por acordar'}\n` +
+      `⏰ *Hora:* ${selectedTime}\n` +
+      `👤 *Nombre:* ${nombre}\n` +
+      `📞 *Teléfono de contacto:* ${telefono}`;
+
+    const url = `https://wa.me/${numBarberia}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  }
+
   function toggleFaq(button) {
     const card = button.closest('.faq-card');
     const content = card.querySelector('.faq-content');
